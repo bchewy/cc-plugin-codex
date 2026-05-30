@@ -468,19 +468,66 @@ function formatSse(events) {
 }
 
 function getToolNames(body) {
-  return Array.isArray(body.tools)
-    ? body.tools
-        .map((tool) => tool.name || tool.function?.name || tool.type)
-        .filter(Boolean)
-    : [];
+  if (!Array.isArray(body.tools)) {
+    return [];
+  }
+
+  const names = [];
+  for (const tool of body.tools) {
+    const toolName = tool.name || tool.function?.name || tool.type;
+    if (toolName) {
+      names.push(toolName);
+    }
+    if (tool.type === "namespace" && tool.name && Array.isArray(tool.tools)) {
+      for (const childTool of tool.tools) {
+        const childName = childTool.name || childTool.function?.name;
+        if (childName) {
+          names.push(childName, `${tool.name}.${childName}`);
+        }
+      }
+    }
+  }
+  return names;
+}
+
+function getCallableToolName(body, toolName) {
+  if (!Array.isArray(body.tools)) {
+    return toolName;
+  }
+  if (body.tools.some((tool) => (tool.name || tool.function?.name) === toolName)) {
+    return toolName;
+  }
+  for (const tool of body.tools) {
+    if (tool.type !== "namespace" || !tool.name || !Array.isArray(tool.tools)) {
+      continue;
+    }
+    if (tool.tools.some((childTool) => (childTool.name || childTool.function?.name) === toolName)) {
+      return `${tool.name}.${toolName}`;
+    }
+  }
+  return toolName;
 }
 
 function getToolParameterDescription(body, toolName, parameterName) {
-  return Array.isArray(body.tools)
-    ? body.tools
-        .find((tool) => (tool.name || tool.function?.name || tool.type) === toolName)
-        ?.parameters?.properties?.[parameterName]?.description ?? null
-    : null;
+  if (!Array.isArray(body.tools)) {
+    return null;
+  }
+
+  for (const tool of body.tools) {
+    const currentName = tool.name || tool.function?.name || tool.type;
+    if (currentName === toolName) {
+      return tool.parameters?.properties?.[parameterName]?.description ?? null;
+    }
+    if (tool.type === "namespace" && Array.isArray(tool.tools)) {
+      for (const childTool of tool.tools) {
+        const childName = childTool.name || childTool.function?.name;
+        if (childName === toolName || `${tool.name}.${childName}` === toolName) {
+          return childTool.parameters?.properties?.[parameterName]?.description ?? null;
+        }
+      }
+    }
+  }
+  return null;
 }
 
 function extractRoleBlock(description, roleName) {
@@ -824,6 +871,7 @@ function startMockProvider({
             object: "list",
             data: [
               { id: "mock-model", object: "model" },
+              { id: "gpt-5.5", object: "model" },
               { id: "gpt-5.4", object: "model" },
               { id: "gpt-5.4-mini", object: "model" },
             ],
@@ -880,7 +928,7 @@ function startMockProvider({
           );
           assert.ok(
             bodyText.includes("retry once with") && bodyText.includes("gpt-5.4"),
-            "parent turn should include the narrow gpt-5.4 fallback guidance for mini-unavailable errors"
+            "parent turn should include the narrow gpt-5.4 fallback guidance for gpt-5.5-unavailable errors"
           );
           assert.ok(
             bodyText.includes("Do not use that fallback for arbitrary failures"),
@@ -889,7 +937,7 @@ function startMockProvider({
 
           const spawnArgs = {
             agent_type: "default",
-            model: "gpt-5.4-mini",
+            model: "gpt-5.5",
             reasoning_effort: "medium",
             message:
               spawnMessage ??
@@ -912,7 +960,7 @@ function startMockProvider({
           };
           events = [
             eventCreated("resp-parent-1"),
-            eventFunctionCall(spawnCallId, "spawn_agent", spawnArgs),
+            eventFunctionCall(spawnCallId, getCallableToolName(body, "spawn_agent"), spawnArgs),
             eventCompleted("resp-parent-1"),
           ];
         } else if (responseIndex === 2) {

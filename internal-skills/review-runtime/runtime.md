@@ -45,7 +45,7 @@ Background contract:
 Spawn-agent defaults:
 - `agent_type: "default"`
 - `fork_context: false`
-- `model: "gpt-5.4-mini"`
+- `model: "gpt-5.5"`
 - `reasoning_effort: "medium"`
 - If that model is explicitly unavailable, retry once with `model: "gpt-5.4"` and the same effort.
 

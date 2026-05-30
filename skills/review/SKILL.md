@@ -76,13 +76,13 @@ Background flow:
 - Spawn exactly one transient forwarding child through `spawn_agent` with:
   - `agent_type: "default"`
   - `fork_context: false`
-  - `model: "gpt-5.4-mini"`
+  - `model: "gpt-5.5"`
   - `reasoning_effort: "medium"`
 - Prefer a self-contained child message over inheriting parent history. The built-in review child should not rely on full parent thread replay for normal operation.
 - Only consider `fork_context: true` as a last resort for a short follow-up where essential context truly cannot be summarized. Avoid it for large or long-lived threads because it can exhaust the child context window.
-- Before spawning the built-in child, emit one short commentary update that records the attempted subagent model selection. Default text should clearly say the parent is starting the built-in review child with `gpt-5.4-mini` at `medium` effort.
-- If `spawn_agent` rejects `gpt-5.4-mini` with an explicit model-unavailable error such as `Unknown model`, `model unavailable`, or equivalent "not in list / unavailable" wording, retry once with `model: "gpt-5.4"` and the same `reasoning_effort: "medium"`.
-- If that fallback happens, emit one short commentary update that clearly says `gpt-5.4-mini` was unavailable and the parent is retrying with `gpt-5.4`.
+- Before spawning the built-in child, emit one short commentary update that records the attempted subagent model selection. Default text should clearly say the parent is starting the built-in review child with `gpt-5.5` at `medium` effort.
+- If `spawn_agent` rejects `gpt-5.5` with an explicit model-unavailable error such as `Unknown model`, `model unavailable`, or equivalent "not in list / unavailable" wording, retry once with `model: "gpt-5.4"` and the same `reasoning_effort: "medium"`.
+- If that fallback happens, emit one short commentary update that clearly says `gpt-5.5` was unavailable and the parent is retrying with `gpt-5.4`.
 - Do not use that fallback for arbitrary failures.
 - The built-in child must be a pure forwarder. It should:
   - run exactly one shell command

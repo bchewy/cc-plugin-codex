@@ -82,7 +82,7 @@ test("review skills keep background execution outside the companion command", ()
   assert.match(review, /omit `--owner-session-id` entirely/i);
   assert.match(review, /spawn_agent/i);
   assert.match(review, /`fork_context: false`/i);
-  assert.match(review, /`model: "gpt-5\.4-mini"`/i);
+  assert.match(review, /`model: "gpt-5\.5"`/i);
   assert.match(review, /`reasoning_effort: "medium"`/i);
   assert.match(review, /Prefer a self-contained child message over inheriting parent history/i);
   assert.match(review, /Only consider `fork_context: true` as a last resort/i);
@@ -136,7 +136,7 @@ test("review skills keep background execution outside the companion command", ()
   assert.match(adversarial, /omit `--owner-session-id` entirely/i);
   assert.match(adversarial, /spawn_agent/i);
   assert.match(adversarial, /`fork_context: false`/i);
-  assert.match(adversarial, /`model: "gpt-5\.4-mini"`/i);
+  assert.match(adversarial, /`model: "gpt-5\.5"`/i);
   assert.match(adversarial, /`reasoning_effort: "medium"`/i);
   assert.match(adversarial, /Prefer a self-contained child message over inheriting parent history/i);
   assert.match(adversarial, /Only consider `fork_context: true` as a last resort/i);
@@ -215,11 +215,11 @@ test("rescue skill documents the experimental built-in-agent forwarding path", (
   assert.match(rescue, /compatibility alias for the default built-in path/i);
   assert.match(rescue, /Prefer `fork_context: false` for the built-in rescue child/i);
   assert.match(rescue, /Only consider `fork_context: true` as a last resort/i);
-  assert.match(rescue, /must set `model: "gpt-5\.4-mini"` and `reasoning_effort: "medium"` on `spawn_agent`/i);
+  assert.match(rescue, /must set `model: "gpt-5\.5"` and `reasoning_effort: "medium"` on `spawn_agent`/i);
   assert.match(rescue, /emit one short commentary update that records the attempted subagent model selection/i);
-  assert.match(rescue, /Prefer `gpt-5\.4-mini`/i);
+  assert.match(rescue, /Prefer `gpt-5\.5`/i);
   assert.match(rescue, /retry once with `model: "gpt-5\.4"` and the same `reasoning_effort: "medium"`/i);
-  assert.match(rescue, /clearly says `gpt-5\.4-mini` was unavailable and the parent is retrying with `gpt-5\.4`/i);
+  assert.match(rescue, /clearly says `gpt-5\.5` was unavailable and the parent is retrying with `gpt-5\.4`/i);
   assert.match(rescue, /Do not use that fallback for arbitrary failures/i);
   assert.match(rescue, /non-empty `parentThreadId`/i);
   assert.match(rescue, /pass it into the child prompt as the parent thread id/i);

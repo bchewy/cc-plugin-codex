@@ -61,10 +61,10 @@ Subagent launch:
 - If a legacy request still includes `--builtin-agent`, treat it as a compatibility alias for the default built-in path. It should not change behavior.
 - Prefer `fork_context: false` for the built-in rescue child. The parent should pass a self-contained forwarding message instead of replaying the full parent thread by default.
 - Only consider `fork_context: true` as a last resort for a short follow-up where essential context truly cannot be summarized. Avoid it for large or long-lived threads because it can exhaust the child context window.
-- The built-in rescue path must set `model: "gpt-5.4-mini"` and `reasoning_effort: "medium"` on `spawn_agent` so the transient forwarding child stays cheap and predictable.
-- Before spawning the built-in child, emit one short commentary update that records the attempted subagent model selection. Default text should clearly say the parent is starting the built-in rescue child with `gpt-5.4-mini` at `medium` effort.
-- Prefer `gpt-5.4-mini` for that built-in child, but if `spawn_agent` rejects that model with an explicit model-availability error such as `Unknown model`, `model unavailable`, or equivalent "not in list / unavailable" wording, retry once with `model: "gpt-5.4"` and the same `reasoning_effort: "medium"`.
-- If that fallback happens, emit one short commentary update that clearly says `gpt-5.4-mini` was unavailable and the parent is retrying with `gpt-5.4`.
+- The built-in rescue path must set `model: "gpt-5.5"` and `reasoning_effort: "medium"` on `spawn_agent` so the transient forwarding child uses the preferred vetting model.
+- Before spawning the built-in child, emit one short commentary update that records the attempted subagent model selection. Default text should clearly say the parent is starting the built-in rescue child with `gpt-5.5` at `medium` effort.
+- Prefer `gpt-5.5` for that built-in child, but if `spawn_agent` rejects that model with an explicit model-availability error such as `Unknown model`, `model unavailable`, or equivalent "not in list / unavailable" wording, retry once with `model: "gpt-5.4"` and the same `reasoning_effort: "medium"`.
+- If that fallback happens, emit one short commentary update that clearly says `gpt-5.5` was unavailable and the parent is retrying with `gpt-5.4`.
 - Do not use that fallback for arbitrary failures. If the error is not clearly a model-unavailable problem, surface it instead of silently retrying with `gpt-5.4`.
 - Remove `--background` and `--wait` before spawning the subagent. Those flags control only whether the main thread waits on the subagent.
 - Pass only the routing and task arguments that actually belong to `claude-companion.mjs task`.

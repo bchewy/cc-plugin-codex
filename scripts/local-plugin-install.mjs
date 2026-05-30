@@ -8,9 +8,10 @@
 console.error(
   [
     "Local checkout installs are no longer supported.",
-    "Install cc from the Sendbird Codex marketplace so Codex owns the active plugin cache:",
-    "  codex marketplace add sendbird/codex-marketplace",
-    "Then install `cc` from that marketplace and run `$cc:setup`.",
+    "Install cc from the bchewy cc-plugin-codex marketplace so Codex owns the active plugin cache:",
+    "  codex plugin marketplace add bchewy/cc-plugin-codex",
+    "  codex plugin add cc@cc-plugin-codex",
+    "Then run `$cc:setup`.",
   ].join("\n")
 );
 process.exit(1);

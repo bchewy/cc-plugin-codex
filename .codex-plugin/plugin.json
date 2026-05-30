@@ -7,8 +7,8 @@
     "email": "jin.ku@sendbird.com",
     "url": "https://sendbird.com/"
   },
-  "homepage": "https://github.com/sendbird/cc-plugin-codex",
-  "repository": "https://github.com/sendbird/cc-plugin-codex",
+  "homepage": "https://github.com/bchewy/cc-plugin-codex",
+  "repository": "https://github.com/bchewy/cc-plugin-codex",
   "license": "Apache-2.0",
   "keywords": [
     "claude-code",

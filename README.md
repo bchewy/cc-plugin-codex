@@ -18,7 +18,7 @@
   <a href="#background-jobs"><strong>Background Jobs</strong></a> ·
   <a href="#review-gate"><strong>Review Gate</strong></a> ·
   <a href="#how-this-differs-from-upstream"><strong>vs Upstream</strong></a> ·
-  <a href="https://github.com/bchewy/cc-plugin-codex/issues"><strong>Issues</strong></a>
+  <a href="https://github.com/sendbird/cc-plugin-codex/issues"><strong>Issues</strong></a>
 </p>
 
 ---
@@ -43,13 +43,13 @@ It follows the shape of [openai/codex-plugin-cc](https://github.com/openai/codex
 
 ### 1. Install
 
-Install from the bchewy marketplace fork:
+Install from the Sendbird marketplace:
 
 ```bash
-codex marketplace add bchewy/codex-marketplace
+codex marketplace add sendbird/codex-marketplace
 ```
 
-Then install `cc` from the bchewy marketplace inside Codex, and run `$cc:setup` once.
+Then install `cc` from the Sendbird marketplace inside Codex, and run `$cc:setup` once.
 
 `cc-plugin-codex` uses Codex native plugin hooks. The active plugin copy lives under Codex's plugin cache, and hook commands resolve through `$PLUGIN_ROOT`; there is no separate local checkout install.
 
@@ -59,7 +59,7 @@ The optional `npx` helper runs the same marketplace/cache install path and enabl
 npx cc-plugin-codex install
 ```
 
-On Windows, prefer the bchewy marketplace path or the `npx` helper. The shell-script helper below is POSIX-only.
+On Windows, prefer the Sendbird marketplace path or the `npx` helper. The shell-script helper below is POSIX-only.
 Codex CLI's official guidance still treats Windows support as experimental and recommends a WSL workspace for the best Codex experience. Claude Code supports both native Windows and WSL.
 
 > **Prerequisites:** Node.js 18+, Codex with hook support, and `claude` CLI installed and authenticated.
@@ -287,15 +287,15 @@ The review gate is an **optional** stop-time hook. When enabled, pressing Ctrl+C
 
 ## Install Variants
 
-### bchewy marketplace (preferred)
+### Sendbird marketplace (preferred)
 
 Add the marketplace:
 
 ```bash
-codex marketplace add bchewy/codex-marketplace
+codex marketplace add sendbird/codex-marketplace
 ```
 
-Then install `cc` from the bchewy marketplace inside Codex, and run:
+Then install `cc` from the Sendbird marketplace inside Codex, and run:
 
 ```text
 $cc:setup
@@ -315,12 +315,12 @@ After install, run:
 $cc:setup
 ```
 
-The helper adds the bchewy marketplace, installs `cc` through Codex app-server, enables native hook feature gates, and removes stale global hook entries from older installs.
+The helper adds the Sendbird marketplace, installs `cc` through Codex app-server, enables native hook feature gates, and removes stale global hook entries from older installs.
 
 ### Shell script (POSIX-only)
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/bchewy/cc-plugin-codex/main/scripts/install.sh" | bash
+curl -fsSL "https://raw.githubusercontent.com/sendbird/cc-plugin-codex/main/scripts/install.sh" | bash
 ```
 
 After install, run:

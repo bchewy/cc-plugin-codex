@@ -17,7 +17,7 @@ jobs:
     permissions:
       contents: read
     env:
-      MARKETPLACE_REPO: bchewy/codex-marketplace
+      MARKETPLACE_REPO: sendbird/codex-marketplace
       MARKETPLACE_BRANCH_PREFIX: auto/update-cc-
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -26,10 +26,10 @@ jobs:
 
       - name: Verify marketplace token is configured
         env:
-          MARKETPLACE_TOKEN: ${{ secrets.BCHWY_CODEX_MARKETPLACE_PUSH_TOKEN }}
+          MARKETPLACE_TOKEN: ${{ secrets.SENDBIRD_CODEX_MARKETPLACE_PUSH_TOKEN }}
         run: |
           if [ -z "$MARKETPLACE_TOKEN" ]; then
-            echo "BCHWY_CODEX_MARKETPLACE_PUSH_TOKEN is required to update $MARKETPLACE_REPO" >&2
+            echo "SENDBIRD_CODEX_MARKETPLACE_PUSH_TOKEN is required to update $MARKETPLACE_REPO" >&2
             exit 1
           fi
 
@@ -60,9 +60,9 @@ jobs:
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          repository: bchewy/codex-marketplace
+          repository: sendbird/codex-marketplace
           path: marketplace
-          token: ${{ secrets.BCHWY_CODEX_MARKETPLACE_PUSH_TOKEN }}
+          token: ${{ secrets.SENDBIRD_CODEX_MARKETPLACE_PUSH_TOKEN }}
           fetch-depth: 0
 
       - name: Update marketplace snapshot
@@ -74,7 +74,7 @@ jobs:
       - name: Create marketplace pull request
         id: create_pr
         env:
-          GH_TOKEN: ${{ secrets.BCHWY_CODEX_MARKETPLACE_PUSH_TOKEN }}
+          GH_TOKEN: ${{ secrets.SENDBIRD_CODEX_MARKETPLACE_PUSH_TOKEN }}
           REF_NAME: ${{ github.event.release.tag_name || inputs.ref || github.ref_name }}
         run: |
           cd marketplace
@@ -105,7 +105,7 @@ jobs:
               --base main \
               --head "$BRANCH_NAME" \
               --title "Update cc plugin snapshot to $REF_NAME" \
-              --body "Update \`plugins/cc\` in the bchewy Codex marketplace to \`$REF_NAME\` from \`bchewy/cc-plugin-codex\`."
+              --body "Update \`plugins/cc\` in the Sendbird Codex marketplace to \`$REF_NAME\` from \`sendbird/cc-plugin-codex\`."
             PR_NUMBER=$(gh pr list \
               --repo "$MARKETPLACE_REPO" \
               --head "$BRANCH_NAME" \
@@ -120,7 +120,7 @@ jobs:
       - name: Merge marketplace pull request
         if: steps.create_pr.outputs.pr_number != ''
         env:
-          GH_TOKEN: ${{ secrets.BCHWY_CODEX_MARKETPLACE_PUSH_TOKEN }}
+          GH_TOKEN: ${{ secrets.SENDBIRD_CODEX_MARKETPLACE_PUSH_TOKEN }}
           PR_NUMBER: ${{ steps.create_pr.outputs.pr_number }}
         run: |
           # Auto-snapshot PRs are deterministic from the source tag and need to

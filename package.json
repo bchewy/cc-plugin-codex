@@ -8,14 +8,14 @@
     "email": "jin.ku@sendbird.com",
     "url": "https://sendbird.com/"
   },
-  "homepage": "https://github.com/bchewy/cc-plugin-codex",
+  "homepage": "https://github.com/sendbird/cc-plugin-codex",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bchewy/cc-plugin-codex.git"
+    "url": "git+https://github.com/sendbird/cc-plugin-codex.git"
   },
   "bin": "scripts/installer-cli.mjs",
   "bugs": {
-    "url": "https://github.com/bchewy/cc-plugin-codex/issues"
+    "url": "https://github.com/sendbird/cc-plugin-codex/issues"
   },
   "license": "Apache-2.0",
   "publishConfig": {
